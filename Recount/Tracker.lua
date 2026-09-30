@@ -328,6 +328,9 @@ local AbsorbSpellDuration =
 	[67260] = 15, -- 300000
 	[67259] = 15, -- 700000
 	[67261] = 15, -- 1200000
+	-- Sirus
+	[374839] = 30, -- Слезы феникса
+	[374840] = 30, -- Слёзы феникса
 }
 
 local bossIDs = BossIDs.BossIDs
@@ -606,20 +609,20 @@ function Recount:SpellAuraRefresh(timestamp, eventtype, srcGUID, srcName, srcFla
 	end
 end
 
-function Recount:SpellAuraRemoved(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags,spellId, spellName, spellSchool, auraType)
+function Recount:SpellAuraRemoved(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags,spellId, spellName, spellSchool, auraType, amount)
 
 	-- Spirit of Redemption and Shadow of Death handling
 	if spellId == 54223 or spellId == 27827 then
 		Recount:HandleDoubleDeath(srcName, dstName, spellName,srcGUID,srcFlags,dstGUID,dstFlags,spellId)		
 
 		-- Is this an absorb effect?
-	elseif AbsorbSpellDuration[spellId] and amount then
+	elseif AbsorbSpellDuration[spellId] and type(amount) == "number" then
 		-- Yes? Lets remove it if it was tracked
 		if AllShields[dstName] and AllShields[dstName][spellId] and AllShields[dstName][spellId][srcName] then
 			
 			local absorb = AllShields[dstName][spellId][srcName] - amount
 			if absorb > 0 then
-				Recount:AddAbsorbCredit(source, victim, spellName, spellId, absorb)
+				Recount:AddAbsorbCredit(srcName, dstName, spellName, spellId, absorb)
 			end
 			AllShields[dstName][spellId][srcName]=0
 		else
@@ -629,8 +632,9 @@ function Recount:SpellAuraRemoved(timestamp, eventtype, srcGUID, srcName, srcFla
 end
 
 function Recount:SpellAuraAppliedRemovedDose(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags,spellId, spellName, spellSchool, auraType, amount)
--- Not sure yet how to handle this
-
+	if AbsorbSpellDuration[spellId] and amount then
+		Recount:SpellAuraRefresh(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags,spellId, spellName, spellSchool, auraType, amount)
+	end
 end
 
 function Recount:SpellCastStartSuccess(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags,spellId, spellName, spellSchool)
