@@ -11,3 +11,13 @@
 /recount reset - сбрасывает сохраненные данные.
 
 *Спасибо игроку [Os](https://forum.sirus.su/members/17os86.175882/) за перевод описания на Русский Язык.*
+
+**Скриншоты:**
+
+![](https://raw.githubusercontent.com/sirus-addons/Recount/master/.screenshots/1.webp)
+![](https://raw.githubusercontent.com/sirus-addons/Recount/master/.screenshots/2.webp)
+![](https://raw.githubusercontent.com/sirus-addons/Recount/master/.screenshots/3.webp)
+![](https://raw.githubusercontent.com/sirus-addons/Recount/master/.screenshots/4.webp)
+![](https://raw.githubusercontent.com/sirus-addons/Recount/master/.screenshots/5.webp)
+![](https://raw.githubusercontent.com/sirus-addons/Recount/master/.screenshots/6.webp)
+![](https://raw.githubusercontent.com/sirus-addons/Recount/master/.screenshots/7.webp)
